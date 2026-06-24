@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALERTA NACIONAL</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#8B0000;
+    overflow:hidden;
+}
+
+.caixa{
+    position:relative;
+    width:90%;
+    max-width:600px;
+    margin:80px auto;
+    background:white;
+    padding:25px;
+    text-align:center;
+    border:6px solid red;
+}
+
+h1{
+    color:red;
+    animation:piscar 1s infinite;
+}
+
+@keyframes piscar{
+    50%{opacity:0.3;}
+}
+
+#botao{
+    position:absolute;
+    padding:12px 18px;
+    background:red;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="caixa">
+    <h1>⚠ ATENÇÃO ⚠</h1>
+
+    <p>
+        TROPA DE REDES ESTÁ EM FORMAÇÃO!<br><br>
+        SE PREPAREM PARA NOVAS INSTRUÇÕES.
+    </p>
+
+    <button id="botao" onclick="acao()">ATENÇÃO</button>
+</div>
+
+<script>
+
+let botao = document.getElementById("botao");
+let iniciado = false;
+
+// mover botão pra posição aleatória
+function mover(){
+    let x = Math.random() * 300;
+    let y = Math.random() * 200;
+
+    botao.style.left = x + "px";
+    botao.style.top = y + "px";
+}
+
+// vibração
+function vibrar(){
+    if(navigator.vibrate){
+        navigator.vibrate([200, 100, 200]);
+    }
+}
+
+// ação do botão
+function acao(){
+
+    // vibra toda vez que clica
+    vibrar();
+
+    // move o botão
+    mover();
+
+    // voz
+    let msg = new SpeechSynthesisUtterance("Tropa de redes. Atenção.");
+    msg.lang = "pt-BR";
+    speechSynthesis.speak(msg);
+}
+
+// inicia vibração leve ao abrir (se permitido)
+document.body.addEventListener("click", () => {
+    if(!iniciado){
+        iniciado = true;
+        vibrar();
+    }
+}, { once:true });
+
+</script>
+
+</body>
+</html>
